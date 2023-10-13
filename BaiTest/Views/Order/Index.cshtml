@@ -9,11 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<input id="search" type="text" name="searchId" placeholder="Seach SalesOrder">
+<div id="searchResultContainer"></div>
+<table class="table" id='Id'>
     <thead>
         <tr>
             @* <th>
-                @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.Id)
             </th> *@
             <th>
                 @Html.DisplayNameFor(model => model.SalesOrder)
@@ -39,16 +41,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.Times_tamp)
             </th>
-            <th></th>
+            
+            <th ></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-             @*    <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td> *@
+                @*    <td>
+            @Html.DisplayFor(modelItem => item.Id)
+            </td> *@
                 <td>
                     @Html.DisplayFor(modelItem => item.SalesOrder)
                 </td>
@@ -82,3 +85,59 @@
         }
     </tbody>
 </table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script>
+    var searchSalesOrder = document.getElementById('search');
+    searchSalesOrder.addEventListener('keyup', function (event) {
+        
+            var id = $('#search').val();
+            var url = '@Url.Action("SearchOrder", "Order")';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    $('#Id tbody').empty();
+                    console.log(result);
+                    var i = 1;
+                    for (var data of result) {
+                        
+                        var row = "<tr>" +
+                            "<td>" + data.salesOrder + "</td>" +
+                            "<td>" + data.salesOrderItem + "</td>" +
+                            "<td>" + data.workOrder + "</td>" +
+                            "<td>" + data.productID + "</td>" +
+                            "<td>" + data.productDescription + "</td>" +
+                            "<td>" + data.orderQuantity + "</td>" +
+                            "<td>" + data.orderStatus + "</td>" +
+                            "<td>" + data.times_tamp + "</td>" +
+
+                            "<td class = \"3nut" + i + "\"> </td>" +
+
+                            "</tr>";
+
+                        var editLink = $('<a>').attr('href', '/Order/Edit/' + data.id).text('Edit');
+                        var detailsLink = $('<a>').attr('href', '/Order/Details/' + data.id).text('Details');
+                        var deleteLink = $('<a>').attr('href', '/Order/Delete/' + data.id).text('Delete');
+
+
+                        $('#Id tbody').append(row);
+                        $('#Id').find('.3nut' + i).last().append(editLink, ' | ', detailsLink, ' | ', deleteLink);
+                        i++;
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        
+        
+    });
+</script>

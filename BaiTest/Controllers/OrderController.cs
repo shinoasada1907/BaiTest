@@ -1,6 +1,5 @@
 ﻿using BaiTest.Data;
 using BaiTest.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaiTest.Controllers
@@ -92,6 +91,15 @@ namespace BaiTest.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public IActionResult SearchOrder(string id)
+        {
+            //int idd = orderDataAccessLayer.SearchOrder(id).Id;
+            
+            var model = orderDataAccessLayer.SearchOrder(id);
+    return Json(model);
         }
     }
 }

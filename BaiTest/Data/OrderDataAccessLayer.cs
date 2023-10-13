@@ -107,6 +107,36 @@ namespace BaiTest.Data
             return order;
         }
 
+        public List<Order> SearchOrder(string SalesOrder)
+        {
+            
+            List<Order> l = new List<Order>();
+            l.Clear();
+            using (SqlConnection cnn = new SqlConnection(connectionString))
+            {
+                string sqlQuery = "SELECT * FROM Orders WHERE SalesOrder like '%" + SalesOrder + "%'";
+                SqlCommand cmd = new SqlCommand(sqlQuery, cnn);
+                cnn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Order order = new Order();
+                    order.Id = Convert.ToInt32(reader["Id"]);
+                    order.SalesOrder = reader["SalesOrder"].ToString();
+                    order.SalesOrderItem = reader["SalesOrderItem"].ToString();
+                    order.WorkOrder = reader["WorkOrder"].ToString();
+                    order.ProductID = reader["ProductID"].ToString();
+                    order.ProductDescription = reader["ProductDescription"].ToString();
+                    order.OrderQuantity = reader["OrderQuantity"].ToString();
+                    order.OrderStatus = reader["OrderStatus"].ToString();
+                    order.Times_tamp = Convert.ToDateTime(reader["Times_tamp"]);
+                    l.Add(order);
+                }
+               
+            }
+            return l;
+        }
+
         public void DeleteOrder(int? id)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
