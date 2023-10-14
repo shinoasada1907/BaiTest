@@ -109,7 +109,7 @@ namespace BaiTest.Data
 
         public List<Order> SearchOrder(string SalesOrder)
         {
-            
+
             List<Order> l = new List<Order>();
             l.Clear();
             using (SqlConnection cnn = new SqlConnection(connectionString))
@@ -132,7 +132,7 @@ namespace BaiTest.Data
                     order.Times_tamp = Convert.ToDateTime(reader["Times_tamp"]);
                     l.Add(order);
                 }
-               
+                cnn.Close();
             }
             return l;
         }

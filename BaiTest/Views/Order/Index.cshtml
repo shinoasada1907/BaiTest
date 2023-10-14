@@ -10,8 +10,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <input id="search" type="text" name="searchId" placeholder="Seach SalesOrder">
-<div id="searchResultContainer"></div>
-<table class="table" id='Id'>
+<table class="table" id="Id">
     <thead>
         <tr>
             @* <th>
@@ -86,10 +85,10 @@
     </tbody>
 </table>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+@* <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> *@
 <script>
     var searchSalesOrder = document.getElementById('search');
     searchSalesOrder.addEventListener('keyup', function (event) {
@@ -102,7 +101,7 @@
                 data: {
                     id: id
                 },
-                success: function (result)
+                success: function (result) {
                     $('#Id tbody').empty();
                     console.log(result);
                     var i = 1;

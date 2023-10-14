@@ -97,9 +97,9 @@ namespace BaiTest.Controllers
         public IActionResult SearchOrder(string id)
         {
             //int idd = orderDataAccessLayer.SearchOrder(id).Id;
-            
+
             var model = orderDataAccessLayer.SearchOrder(id);
-    return Json(model);
+            return Json(model);
         }
     }
 }
